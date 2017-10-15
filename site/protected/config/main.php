@@ -16,6 +16,7 @@ return array(
     'import' => array(
         'application.models.*',
         'application.components.*',
+        'application.repos.*',
     ),
 
     'modules' => array(
@@ -24,15 +25,22 @@ return array(
             'class' => 'system.gii.GiiModule',
             'password' => '123',
             // If removed, Gii defaults to localhost only. Edit carefully to taste.
-            'ipFilters' => array('127.0.0.1', '::1'),
+            'ipFilters' => array('127.0.0.1', '::1', '172.25.0.1'),
         ),
     ),
 
     // application components
     'components' => array(
 
+        'mailer' => [
+            'class' => 'FileMailerTransfer',
+            'file' => 'mails.log'
+        ],
+
         'user' => array(
             // enable cookie-based authentication
+            'class' => 'WebUser',
+            'loginUrl' => array('session/new'),
             'allowAutoLogin' => true,
         ),
 

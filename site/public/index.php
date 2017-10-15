@@ -7,7 +7,8 @@ $dotenv->load();
 
 require(dirname(__FILE__) . '/../framework/YiiBase.php');
 
-class Yii extends YiiBase {
+class Yii extends YiiBase
+{
     /**
      * @static
      * @return CWebApplication

@@ -6,7 +6,7 @@ class m171015_083416_create_links_table extends CDbMigration
 	{
 	    $this->createTable('links', [
 	        'id' => 'pk',
-            'mail' => 'string NOT NULL',
+            'email' => 'string NOT NULL',
             'key' => 'string NOT NULL',
             'created_at' => 'datetime NOT NULL'
         ], 'ENGINE=InnoDB CHARSET=utf8');
