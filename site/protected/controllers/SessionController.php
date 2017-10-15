@@ -10,11 +10,12 @@ class SessionController extends Controller
 {
     public function actionNew()
     {
-        $this->render('new');
+        $model = new LoginForm();
+        $this->render('new', ['model' => $model]);
     }
 
     public function actionCreate($email, $key)
     {
-        
+
     }
 }
