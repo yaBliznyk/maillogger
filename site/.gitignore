@@ -1,0 +1,10 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Yii template
+/public/assets/*
+!/public/assets/.gitignore
+protected/runtime/*
+!protected/runtime/.gitignore
+/protected/data/*.db
+/themes/classic/views/
+/protected/.env
+

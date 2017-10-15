@@ -1,0 +1,12 @@
+{
+    "name": "bloom/maillogger",
+    "authors": [
+        {
+            "name": "Bloom",
+            "email": "yaBliznyk@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^2.4"
+    }
+}
