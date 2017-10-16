@@ -1,0 +1,6 @@
+YII_DEBUG=true
+YII_TRACE_LEVEL=3
+
+DB_LOGIN="homestead"
+DB_PASS="secret"
+DB_NAME="homestead"
