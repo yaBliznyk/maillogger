@@ -30,8 +30,13 @@ class ProfileController extends Controller
 
     public function actionIndex()
     {
-        $this->render('index');
+        $model = UserRepository::findByPk();
+        $this->render('index', ['model' => $model]);
     }
 
-
+    public function actionUpdate($id)
+    {
+        if (Yii::app()->request->isPostRequest)
+        $this->redirect(['index']);
+    }
 }

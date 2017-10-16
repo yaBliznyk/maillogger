@@ -14,7 +14,8 @@ class FileMailerTransfer extends MailTransferAbstract
     {
         file_put_contents(
             Yii::getPathOfAlias('application.runtime') . DIRECTORY_SEPARATOR . $this->file,
-            $message->getMessage()
+            $message->getMessage(),
+            FILE_APPEND
         );
     }
 }

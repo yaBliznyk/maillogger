@@ -49,7 +49,7 @@ class User extends CActiveRecord
         $api_key = null;
         while (true) {
             $api_key = Yii::app()->securityManager->generateRandomString(self::API_KEY_LENGTH);
-            if (!self::model()->exists('api_key = :api_key', [':api_key' => $api_key])) {
+            if (!UserRepository::findByApiKey($api_key)) {
                 break;
             }
         }

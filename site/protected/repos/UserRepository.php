@@ -23,7 +23,7 @@ class UserRepository
      */
     public static function createIfNotExists($email)
     {
-        $user = User::model()->findByAttributes(['email' => $email]);
+        $user = self::find()->findByAttributes(['email' => $email]);
         if (!$user) {
             $user = new User();
             $user->name = 'New user';
@@ -34,5 +34,23 @@ class UserRepository
             }
         }
         return $user;
+    }
+
+    /**
+     * @param $api_key
+     * @return User
+     */
+    public static function findByApiKey($api_key)
+    {
+        return self::find()->findByAttributes(['api_key' => $api_key]);
+    }
+
+    /**
+     * @param null $id
+     * @return User
+     */
+    public static function findByPk($id = null)
+    {
+        return self::find()->findByPk($id ? $id : Yii::app()->user->id);
     }
 }

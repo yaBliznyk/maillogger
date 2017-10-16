@@ -16,6 +16,7 @@ return array(
     'import' => array(
         'application.models.*',
         'application.components.*',
+        'application.components.abstract.*',
         'application.repos.*',
     ),
 
@@ -49,6 +50,11 @@ return array(
             'showScriptName' => false,
             'urlFormat' => 'path',
             'rules' => array(
+                array(
+                    'api/transaction/create',
+                    'pattern' => 'apiTransaction/create/<api_key:\w+>/<amount:\d+>',
+                    'verb' => 'POST'
+                ),
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',

@@ -60,9 +60,21 @@ class Link extends CActiveRecord
                 $this->generateKey();
                 $this->created_at = date('Y-m-d H:i:s');
             }
+            $this->clear($this->email);
             return true;
         } else {
             return false;
+        }
+    }
+
+    public function clear($email = null)
+    {
+        // Удаляем ссылки часовой давности
+        $date_hour_down = date('Y-m-d H:i:s', strtotime('-1 hour'));
+        self::model()->deleteAll('created_at <= :created_at', [':created_at' => $date_hour_down]);
+        // Очищаем все ссылки конкретного почтового адреса
+        if ($email) {
+            self::model()->deleteAllByAttributes(['email' => $email]);
         }
     }
 
