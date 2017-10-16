@@ -32,7 +32,9 @@ class User extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
+            array('name', 'filterName'),
             array('email, name', 'required'),
+            array('email', 'email'),
             array('email', 'unique'),
             array('name, email', 'length', 'max' => 100),
             array('money', 'length', 'max' => 12),
@@ -42,6 +44,11 @@ class User extends CActiveRecord
             // @todo Please remove those attributes that should not be searched.
             array('id, name, mail, api_key, money, created_at', 'safe', 'on' => 'search'),
         );
+    }
+
+    public function filterName($attribute)
+    {
+        $this->$attribute = trim(CHtml::encode($this->$attribute));
     }
 
     public function generateUniqueKey()

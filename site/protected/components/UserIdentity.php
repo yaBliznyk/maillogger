@@ -11,7 +11,7 @@ class UserIdentity extends CUserIdentity
 
     public function authenticate()
     {
-        $user = User::model()->findByAttributes(['email' => $this->username]);
+        $user = UserRepository::findByEmail($this->username);
         if ($user === null) {
             $this->errorCode = self::ERROR_USERNAME_INVALID;
         } else {

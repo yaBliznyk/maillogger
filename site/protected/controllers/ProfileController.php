@@ -12,17 +12,20 @@ class ProfileController extends Controller
     {
         return array(
             'accessControl',
+            'postOnly + update',
         );
     }
 
     public function accessRules()
     {
         return array(
-            array('allow',
-                'users'=>array('@'),
+            array(
+                'allow',
+                'users' => array('@'),
             ),
-            array('deny',
-                'users'=>array('*'),
+            array(
+                'deny',
+                'users' => array('*'),
             ),
         );
     }
@@ -31,12 +34,25 @@ class ProfileController extends Controller
     public function actionIndex()
     {
         $model = UserRepository::findByPk();
-        $this->render('index', ['model' => $model]);
+        $transactions = TransactionRepository::findByUserId($model->id);
+        $this->render(
+            'index',
+            [
+                'model' => $model,
+                'transactions' => $transactions
+            ]
+        );
     }
 
-    public function actionUpdate($id)
+    public function actionUpdate()
     {
-        if (Yii::app()->request->isPostRequest)
+        $model = UserRepository::findByPk();
+        if (isset($_POST['User'])) {
+            $model->attributes = $_POST['User'];
+            if ($model->save(true, ['name'])) {
+                Yii::app()->user->setFlash('success', 'Имя пользователя успешно изменено');
+            }
+        }
         $this->redirect(['index']);
     }
 }

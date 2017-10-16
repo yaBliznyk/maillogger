@@ -1,33 +1,16 @@
 <?php
 /* @var $this ProfileController */
 /* @var $model User */
+/* @var Transaction[] $transactions */
 
 $this->pageTitle = Yii::app()->name;
 ?>
 
-<h1>Welcome <i><?php echo CHtml::encode(Yii::app()->user->name); ?></i></h1>
+<h1>Welcome <i><?= $model->name ?></i></h1>
 
-<?php $form = $this->beginWidget('CActiveForm', array(
-    'id' => 'user-form',
-    'enableClientValidation' => true,
-    'clientOptions' => array(
-        'validateOnSubmit' => true,
-    ),
-)); ?>
+<?= $this->renderPartial('_form', ['model' => $model]) ?>
 
-<div class="row">
-    <?php echo $form->labelEx($model, 'name'); ?>
-    <?php echo $form->textField($model, 'name'); ?>
-    <?php echo $form->error($model, 'name'); ?>
-</div>
-
-<div class="row buttons">
-    <?php echo CHtml::submitButton('Изменить имя'); ?>
-</div>
-
-<?php $this->endWidget(); ?>
-
-<p>У вас на счету: <?= $model->money ?> монет</p>
+<p>У вас на счету: <b><?= $model->money ?></b> монет</p>
 
 <p>API ключ:</p>
 <p><?= $model->api_key ?></p>
@@ -35,6 +18,17 @@ $this->pageTitle = Yii::app()->name;
 <p>
     <?= $this->createAbsoluteUrl(
         '/api/transaction/create',
-        ['amount' => 'amount', 'api_key' => $model->api_key]
+        ['api_key' => $model->api_key]
     ); ?>
 </p>
+<p>Где POST['amount'] - количество монет</p>
+
+<?php if ($transactions): ?>
+    <h3>Операции:</h3>
+
+    <ol>
+        <?php foreach ($transactions as $transaction): ?>
+            <li><?= $transaction->created_at; ?> - <b><?= $transaction->amount ?></b> монет</li>
+        <?php endforeach; ?>
+    </ol>
+<?php endif; ?>

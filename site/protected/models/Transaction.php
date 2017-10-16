@@ -27,14 +27,21 @@ class Transaction extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, amount, created_at', 'required'),
-			array('user_id', 'numerical', 'integerOnly'=>true),
-			array('amount', 'length', 'max'=>20),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id, user_id, amount, created_at', 'safe', 'on'=>'search'),
+            array('amount, user_id', 'required'),
+            array('user_id', 'numerical', 'integerOnly'=>true),
+            array('amount', 'numerical', 'min' => 1),
+            array('amount', 'length', 'max'=>20),
+            array('amount', 'validateExists'),
 		);
 	}
+
+    public function validateExists($attribute)
+    {
+        $user = UserRepository::findByPk(Yii::app()->user->id);
+        if ($this->$attribute > $user->money) {
+            $this->addError($attribute, 'Недостаточно средств на счету');
+        }
+    }
 
 	/**
 	 * @return array relational rules.
@@ -60,33 +67,17 @@ class Transaction extends CActiveRecord
 		);
 	}
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
-		$criteria=new CDbCriteria;
-
-		$criteria->compare('id',$this->id);
-		$criteria->compare('user_id',$this->user_id);
-		$criteria->compare('amount',$this->amount,true);
-		$criteria->compare('created_at',$this->created_at,true);
-
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
+    public function beforeSave()
+    {
+        if (parent::beforeSave()) {
+            if ($this->isNewRecord) {
+                $this->created_at = date('Y-m-d H:i:s');
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 	/**
 	 * Returns the static model of the specified AR class.

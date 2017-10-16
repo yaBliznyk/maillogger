@@ -17,7 +17,9 @@ return array(
         'application.models.*',
         'application.components.*',
         'application.components.abstract.*',
+//        'application.controllers.api.*',
         'application.repos.*',
+        'application.services.*',
     ),
 
     'modules' => array(
@@ -51,8 +53,8 @@ return array(
             'urlFormat' => 'path',
             'rules' => array(
                 array(
-                    'api/transaction/create',
-                    'pattern' => 'apiTransaction/create/<api_key:\w+>/<amount:\d+>',
+                    'api/<controller>/<action>',
+                    'pattern' => 'api/<api_key:\w+>/<controller:\w+>/<action:\w+>',
                     'verb' => 'POST'
                 ),
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
